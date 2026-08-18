@@ -241,8 +241,8 @@ export default function Login() {
                       required
                       value={phone}
                       onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                      placeholder="9876543210"
-                      className="input"
+                      placeholder="Enter Mobile Number"
+                      className="input-light"
                       style={{ paddingLeft: 44 }}
                       maxLength={10}
                     />
@@ -385,14 +385,14 @@ export default function Login() {
               <FieldLabel label="Full Name *" />
               <InputWrap icon={<User size={16} />}>
                 <input id="reg-name" type="text" required value={name} onChange={e => setName(e.target.value)}
-                  placeholder="Rajesh Patil" className="input" style={{ paddingLeft: 44, marginBottom: 20 }} />
+                  placeholder=" Enter Full Name" className="input" style={{ paddingLeft: 44, marginBottom: 20 }} />
               </InputWrap>
 
               {/* Email */}
               <FieldLabel label="Email Address" />
               <InputWrap icon={<Mail size={16} />}>
                 <input id="reg-email" type="email" value={email} onChange={e => setEmail(e.target.value)}
-                  placeholder="rajesh@example.com" className="input" style={{ paddingLeft: 44, marginBottom: 20 }} />
+                  placeholder="Enter Email ID" className="input" style={{ paddingLeft: 44, marginBottom: 20 }} />
               </InputWrap>
 
               {/* Mobile */}
@@ -400,7 +400,7 @@ export default function Login() {
               <InputWrap icon={<Phone size={16} />}>
                 <input id="reg-phone" type="tel" required value={regPhone}
                   onChange={e => setRegPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                  placeholder="9876543210" className="input" style={{ paddingLeft: 44, marginBottom: 24 }} maxLength={10} />
+                  placeholder='Enter Mobile Number' className="input" style={{ paddingLeft: 44, marginBottom: 24 }} maxLength={10} />
               </InputWrap>
 
               <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '13px 0', fontSize: 15 }}>
