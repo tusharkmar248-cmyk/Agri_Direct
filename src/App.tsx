@@ -15,6 +15,7 @@ import Orders from './pages/Orders';
 import MarketPrices from './pages/MarketPrices';
 import Earnings from './pages/Earnings';
 import Notifications from './pages/Notifications';
+import Login from './pages/Login';
 
 function DashboardRouter() {
   const { state } = useStore();
@@ -28,8 +29,9 @@ function AppRoutes() {
   return (
     <I18nProvider language={language} setLanguage={setLanguage}>
       <Routes>
-        {/* Landing page (no sidebar) */}
+        {/* Landing page and Login (no sidebar) */}
         <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
 
         {/* App shell with sidebar */}
         <Route element={<Layout />}>

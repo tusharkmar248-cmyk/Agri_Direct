@@ -21,8 +21,8 @@ export default function Landing() {
           </div>
           <button
             id="landing-get-started"
-            onClick={() => navigate('/dashboard')}
-            className="btn-primary text-sm"
+            onClick={() => navigate('/login')}
+            className="btn-primary text-sm cursor-pointer"
           >
             {t('getStarted')} <ArrowRight size={16} />
           </button>
@@ -37,7 +37,7 @@ export default function Landing() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10 animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-100 text-primary-700 text-sm font-semibold mb-6">
-            <Sprout size={16} /> SIH PS-18 — Farmer-to-Market Platform
+            <Sprout size={16} /> Farmer-to-Market Platform
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-primary leading-tight mb-6">
             {t('heroTitle').split(',')[0]}
@@ -49,8 +49,8 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               id="hero-get-started"
-              onClick={() => navigate('/dashboard')}
-              className="btn-primary text-base px-8 py-3"
+              onClick={() => navigate('/login')}
+              className="btn-primary text-base px-8 py-3 cursor-pointer"
             >
               {t('getStarted')} <ArrowRight size={18} />
             </button>
@@ -93,25 +93,27 @@ export default function Landing() {
       </section>
 
       {/* ── How It Works ───────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-text-primary mb-4">{t('howItWorks')}</h2>
-          <p className="text-center text-text-secondary mb-12 max-w-xl mx-auto">Simple 4-step process to get fresh produce directly</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
+      <section className="py-24 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4">{t('howItWorks')}</h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">Simple 4-step process to get fresh produce directly</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
             {[
-              { step: 1, icon: <Sprout size={28} />, title: t('step1Title'), desc: t('step1Desc'), color: 'bg-primary-100 text-primary-600' },
-              { step: 2, icon: <Users size={28} />, title: t('step2Title'), desc: t('step2Desc'), color: 'bg-accent-100 text-accent-600' },
-              { step: 3, icon: <Handshake size={28} />, title: t('step3Title'), desc: t('step3Desc'), color: 'bg-info-100 text-info-500' },
-              { step: 4, icon: <Truck size={28} />, title: t('step4Title'), desc: t('step4Desc'), color: 'bg-success-100 text-success-500' },
+              { step: 1, icon: <Sprout size={32} />, title: t('step1Title'), desc: t('step1Desc'), color: 'bg-primary-100 text-primary-600' },
+              { step: 2, icon: <Users size={32} />, title: t('step2Title'), desc: t('step2Desc'), color: 'bg-accent-100 text-accent-600' },
+              { step: 3, icon: <Handshake size={32} />, title: t('step3Title'), desc: t('step3Desc'), color: 'bg-info-100 text-info-500' },
+              { step: 4, icon: <Truck size={32} />, title: t('step4Title'), desc: t('step4Desc'), color: 'bg-success-100 text-success-500' },
             ].map(item => (
-              <div key={item.step} className="glass-card p-6 text-center relative">
-                <div className="absolute -top-3 -left-1 w-8 h-8 rounded-full bg-primary-500 text-white text-sm font-bold flex items-center justify-center shadow-lg">
+              <div key={item.step} className="glass-card p-8 flex flex-col items-center text-center relative group hover:shadow-xl transition-all duration-300">
+                <div className="w-10 h-10 rounded-full bg-surface border-2 border-border-light text-text-primary font-bold flex items-center justify-center mb-6 shadow-sm z-10 group-hover:border-primary-500 group-hover:text-primary-600 transition-colors">
                   {item.step}
                 </div>
-                <div className={`w-14 h-14 rounded-2xl ${item.color} flex items-center justify-center mx-auto mb-4`}>
+                <div className={`w-20 h-20 rounded-2xl ${item.color} flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform`}>
                   {item.icon}
                 </div>
-                <h3 className="text-lg font-bold text-text-primary mb-2">{item.title}</h3>
+                <h3 className="text-xl font-bold text-text-primary mb-3">{item.title}</h3>
                 <p className="text-sm text-text-secondary leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -120,23 +122,26 @@ export default function Landing() {
       </section>
 
       {/* ── Key Features ───────────────────────────────────────── */}
-      <section className="py-20 px-4 sm:px-6 bg-surface-dim">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-text-primary mb-12">{t('keyFeatures')}</h2>
-          <div className="grid sm:grid-cols-2 gap-6 stagger-children">
+      <section className="py-24 px-4 sm:px-6 bg-surface-dim">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4">{t('keyFeatures')}</h2>
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">Powerful tools designed to simplify direct agricultural trade</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 stagger-children">
             {[
-              { icon: <Shield size={24} />, title: t('feat1'), desc: t('feat1d'), gradient: 'from-primary-500 to-primary-700' },
-              { icon: <Zap size={24} />, title: t('feat2'), desc: t('feat2d'), gradient: 'from-accent-500 to-accent-700' },
-              { icon: <BarChart3 size={24} />, title: t('feat3'), desc: t('feat3d'), gradient: 'from-info-500 to-primary-600' },
-              { icon: <TrendingUp size={24} />, title: t('feat4'), desc: t('feat4d'), gradient: 'from-success-500 to-primary-600' },
+              { icon: <Shield size={28} />, title: t('feat1'), desc: t('feat1d'), gradient: 'from-primary-500 to-primary-700' },
+              { icon: <Zap size={28} />, title: t('feat2'), desc: t('feat2d'), gradient: 'from-accent-500 to-accent-700' },
+              { icon: <BarChart3 size={28} />, title: t('feat3'), desc: t('feat3d'), gradient: 'from-info-500 to-primary-600' },
+              { icon: <TrendingUp size={28} />, title: t('feat4'), desc: t('feat4d'), gradient: 'from-success-500 to-primary-600' },
             ].map(feat => (
-              <div key={feat.title} className="glass-card p-6 flex gap-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feat.gradient} text-white flex items-center justify-center shrink-0`}>
+              <div key={feat.title} className="glass-card p-8 flex flex-col sm:flex-row gap-6 hover:shadow-xl transition-all duration-300 group">
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feat.gradient} text-white flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform`}>
                   {feat.icon}
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-text-primary mb-1">{feat.title}</h3>
-                  <p className="text-sm text-text-secondary leading-relaxed">{feat.desc}</p>
+                  <h3 className="text-xl font-bold text-text-primary mb-2">{feat.title}</h3>
+                  <p className="text-base text-text-secondary leading-relaxed">{feat.desc}</p>
                 </div>
               </div>
             ))}
@@ -152,7 +157,7 @@ export default function Landing() {
             <span className="font-bold gradient-text">{t('appName')}</span>
           </div>
           <p className="text-sm text-text-muted">
-            Smart India Hackathon — PS-18 | Farmer-to-Market Direct Selling Platform
+            Farmer-to-Market Direct Selling Platform
           </p>
           <p className="text-xs text-text-muted mt-1">© 2026 Agri Direct. Built with ❤️ for Indian Farmers.</p>
         </div>
