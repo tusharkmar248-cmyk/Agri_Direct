@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sprout, Phone, Mail, User, ArrowRight, ShieldCheck, RefreshCw } from 'lucide-react';
 import { useStore } from '../store';
+import type { User as AppUser } from '../types';
 
 type Tab = 'signin' | 'register';
 type SignInStep = 'phone' | 'otp';
@@ -20,7 +21,7 @@ export default function Login() {
   const [regPhone, setRegPhone] = useState('');
 
   const navigate = useNavigate();
-  const { dispatch, state } = useStore();
+  const { dispatch } = useStore();
 
   const handleSendOtp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +43,16 @@ export default function Login() {
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
     if (otp.join('').length === 4) {
-      const user = state.users.find(u => u.role === 'farmer') || state.currentUser;
+      const user: AppUser = {
+        id: phone,
+        name: name || 'Guest User',
+        role: 'farmer',
+        phone: phone,
+        location: 'Unknown Location',
+        avatar: '👨‍🌾',
+        rating: 5.0,
+        joinedDate: new Date().toISOString()
+      };
       dispatch({ type: 'SET_USER', user });
       navigate('/dashboard');
     }
@@ -66,7 +76,18 @@ export default function Login() {
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    const user = state.users.find(u => u.role === role) || state.currentUser;
+    if (regPhone.length < 10) return alert("Please enter a valid 10-digit mobile number");
+
+    const user: AppUser = {
+        id: regPhone,
+        name: name || 'New User',
+        role: role,
+        phone: regPhone,
+        location: 'Unknown Location',
+        avatar: role === 'farmer' ? '👨‍🌾' : '🧑‍💼',
+        rating: 5.0,
+        joinedDate: new Date().toISOString()
+    };
     dispatch({ type: 'SET_USER', user });
     navigate('/dashboard');
   };
@@ -233,6 +254,21 @@ export default function Login() {
             <>
               {step === 'phone' ? (
                 <form onSubmit={handleSendOtp}>
+                  {/* Name */}
+                  <FieldLabel label="Full Name *" />
+                  <InputWrap icon={<User size={16} />}>
+                    <input
+                      id="signin-name"
+                      type="text"
+                      required
+                      value={name}
+                      onChange={e => setName(e.target.value)}
+                      placeholder="Enter Full Name"
+                      className="input-light"
+                      style={{ paddingLeft: 44, marginBottom: 20 }}
+                    />
+                  </InputWrap>
+
                   <FieldLabel label="Mobile Number *" />
                   <InputWrap icon={<Phone size={16} />}>
                     <input

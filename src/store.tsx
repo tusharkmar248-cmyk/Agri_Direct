@@ -41,6 +41,7 @@ type Action =
   | { type: 'ADD_NOTIFICATION'; notification: AppNotification }
   | { type: 'MARK_NOTIFICATION_READ'; id: string }
   | { type: 'MARK_ALL_NOTIFICATIONS_READ'; userId: string }
+  | { type: 'ACCEPT_OFFER'; offerId: string; order: Order }
   | { type: 'RESET_DATA' };
 
 function reducer(state: AppState, action: Action): AppState {
@@ -50,17 +51,40 @@ function reducer(state: AppState, action: Action): AppState {
     case 'SET_LANGUAGE':
       return { ...state, language: action.language };
     case 'ADD_PRODUCT':
+      if (state.currentUser.role !== 'farmer') return state; // Role guard
       return { ...state, products: [action.product, ...state.products] };
     case 'UPDATE_PRODUCT':
+      if (state.currentUser.role !== 'farmer') return state; // Role guard
       return { ...state, products: state.products.map(p => p.id === action.product.id ? action.product : p) };
     case 'DELETE_PRODUCT':
+      if (state.currentUser.role !== 'farmer') return state; // Role guard
       return { ...state, products: state.products.filter(p => p.id !== action.id) };
     case 'TOGGLE_PRODUCT':
+      if (state.currentUser.role !== 'farmer') return state; // Role guard
       return { ...state, products: state.products.map(p => p.id === action.id ? { ...p, active: !p.active } : p) };
     case 'ADD_OFFER':
       return { ...state, offers: [action.offer, ...state.offers] };
     case 'UPDATE_OFFER_STATUS':
       return { ...state, offers: state.offers.map(o => o.id === action.id ? { ...o, status: action.status } : o) };
+    case 'ACCEPT_OFFER': {
+      const offer = state.offers.find(o => o.id === action.offerId);
+      if (!offer) return state;
+      const product = state.products.find(p => p.id === offer.productId);
+      
+      // Simulate Transaction Lock / Check
+      if (!product || product.quantity < offer.quantity) {
+        throw new Error(`Transaction Failed: Insufficient inventory. Available: ${product?.quantity || 0}, Requested: ${offer.quantity}`);
+      }
+
+      const newQuantity = product.quantity - offer.quantity;
+      
+      return {
+        ...state,
+        products: state.products.map(p => p.id === product.id ? { ...p, quantity: newQuantity } : p),
+        offers: state.offers.map(o => o.id === action.offerId ? { ...o, status: 'accepted' } : o),
+        orders: [action.order, ...state.orders]
+      };
+    }
     case 'ADD_ORDER':
       return { ...state, orders: [action.order, ...state.orders] };
     case 'UPDATE_ORDER_STATUS': {

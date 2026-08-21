@@ -22,9 +22,6 @@ export default function Offers() {
     const offer = state.offers.find(o => o.id === offerId);
     if (!offer) return;
 
-    dispatch({ type: 'UPDATE_OFFER_STATUS', id: offerId, status: 'accepted' });
-
-    // Create an order automatically
     const order: Order = {
       id: `order-${Date.now()}`,
       productId: offer.productId,
@@ -40,20 +37,28 @@ export default function Offers() {
       deliveryAddress: 'To be confirmed',
       placedAt: new Date().toISOString(),
     };
-    dispatch({ type: 'ADD_ORDER', order });
 
-    dispatch({
-      type: 'ADD_NOTIFICATION',
-      notification: {
-        id: `notif-${Date.now()}`,
-        userId: offer.buyerId,
-        type: 'offer',
-        title: 'Offer Accepted!',
-        message: `${state.currentUser.name} accepted your offer for ${offer.productName}`,
-        read: false,
-        createdAt: new Date().toISOString(),
-      },
-    });
+    try {
+      dispatch({ type: 'ACCEPT_OFFER', offerId, order });
+
+      dispatch({
+        type: 'ADD_NOTIFICATION',
+        notification: {
+          id: `notif-${Date.now()}`,
+          userId: offer.buyerId,
+          type: 'offer',
+          title: 'Offer Accepted!',
+          message: `${state.currentUser.name} accepted your offer for ${offer.productName}`,
+          read: false,
+          createdAt: new Date().toISOString(),
+        },
+      });
+    } catch (err) {
+      if (err instanceof Error) {
+        alert(err.message);
+      }
+    }
+
   };
 
   const handleReject = (offerId: string) => {

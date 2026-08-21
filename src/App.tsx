@@ -16,10 +16,20 @@ import MarketPrices from './pages/MarketPrices';
 import Earnings from './pages/Earnings';
 import Notifications from './pages/Notifications';
 import Login from './pages/Login';
+import type { UserRole } from './types';
 
 function DashboardRouter() {
   const { state } = useStore();
   return state.currentUser.role === 'farmer' ? <FarmerDashboard /> : <BuyerDashboard />;
+}
+
+/** Route guard — redirects to /dashboard if user's role doesn't match */
+function RoleGuard({ allowedRole, children }: { allowedRole: UserRole; children: React.ReactNode }) {
+  const { state } = useStore();
+  if (state.currentUser.role !== allowedRole) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <>{children}</>;
 }
 
 function AppRoutes() {
@@ -36,13 +46,13 @@ function AppRoutes() {
         {/* App shell with sidebar */}
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<DashboardRouter />} />
-          <Route path="/listings" element={<MyListings />} />
-          <Route path="/marketplace" element={<Marketplace />} />
+          <Route path="/listings" element={<RoleGuard allowedRole="farmer"><MyListings /></RoleGuard>} />
+          <Route path="/marketplace" element={<RoleGuard allowedRole="buyer"><Marketplace /></RoleGuard>} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/offers" element={<Offers />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/market-prices" element={<MarketPrices />} />
-          <Route path="/earnings" element={<Earnings />} />
+          <Route path="/earnings" element={<RoleGuard allowedRole="farmer"><Earnings /></RoleGuard>} />
           <Route path="/notifications" element={<Notifications />} />
         </Route>
 
